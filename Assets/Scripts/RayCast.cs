@@ -48,7 +48,7 @@ public class RayCast : MonoBehaviour
                   if (currentEnemy.TryGetComponent<NPCstats>(out NPCstats enemyScript))
                   {
                     enemyScript.HP -= _dmg;
-                }
+                  }
                 
 
             }

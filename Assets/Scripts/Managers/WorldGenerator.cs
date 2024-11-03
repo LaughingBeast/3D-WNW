@@ -11,6 +11,7 @@ public class WorldGenerator : MonoBehaviour
     public CinemachineCamera CameraFollow;
     public GameObject NavMesh;
     public Camera Camera;
+    
 
     #region PreFab Definition
     private GameObject Player;
@@ -102,8 +103,9 @@ public class WorldGenerator : MonoBehaviour
                 _spawnPosition = RandomNPCPosition(5);
             }
             
-            InstanceSpawn(Enemy, _spawnPosition, Quaternion.identity);
-            
+            var newEnemy  = InstanceSpawn(Enemy, _spawnPosition, Quaternion.identity);
+            newEnemy.GetComponentInChildren<Billboard>().Camera = Camera.transform;
+
         }//enemy Spawn
         #endregion
     }
