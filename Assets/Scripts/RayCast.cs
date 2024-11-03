@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class RayCast : MonoBehaviour
 {
+    public AudioSource AudioPlayer;
+    
     private ParticleSystem _fire0;
     private GameObject _particleSystemPositionFire;
     [SerializeField]   
@@ -13,6 +15,7 @@ public class RayCast : MonoBehaviour
     [SerializeField]
     private float Range = 10f;
     LayerMask layerMask;
+    bool _fireSound = false;
 
 
 
@@ -38,6 +41,13 @@ public class RayCast : MonoBehaviour
         {
             var _fireParticles = Instantiate(_fire0, _particleSystemPositionFire.transform.position, gameObject.transform.rotation);
             StartCoroutine(FireParticle(_fireParticles));
+            if (!AudioPlayer.isPlaying)
+            {
+
+                AudioPlayer.Play();
+            }
+            
+
 
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Range, layerMask))
             {
@@ -48,6 +58,10 @@ public class RayCast : MonoBehaviour
                   if (currentEnemy.TryGetComponent<NPCstats>(out NPCstats enemyScript))
                   {
                     enemyScript.HP -= _dmg;
+                    
+                    
+                       
+                    
                   }
                 
 
@@ -55,9 +69,9 @@ public class RayCast : MonoBehaviour
             else
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * Range, Color.white);
-                
+               
             }
-        }
+        } else { AudioPlayer.Stop(); }
 
     }
 
