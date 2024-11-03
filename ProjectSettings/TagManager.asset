@@ -15,9 +15,9 @@ TagManager:
   - AreaEffects
   - Water
   - UI
-  - EnemyTrigger
-  - 
-  - 
+  - Enemy
+  - Colision
+  - Wall
   - 
   - 
   - 
