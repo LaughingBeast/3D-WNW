@@ -11,7 +11,9 @@ public class WorldGenerator : MonoBehaviour
     public CinemachineCamera CameraFollow;
     public GameObject NavMesh;
     public Camera Camera;
-    
+    public AudioSource AudioSourceFire;
+    public AudioSource AudioSourceHit;
+
 
     #region PreFab Definition
     private GameObject Player;
@@ -82,6 +84,7 @@ public class WorldGenerator : MonoBehaviour
         var spawnP = Instantiate(Player);
         spawnP.transform.position = _spawnPoin;
         spawnP.GetComponent<Player>().Cam = Camera;
+        spawnP.GetComponent<RayCast>().AudioPlayer = AudioSourceFire; // doladit
         Player = spawnP;
         CameraFollow.Follow = Player.transform; // Camera Follow
         
@@ -105,6 +108,7 @@ public class WorldGenerator : MonoBehaviour
             
             var newEnemy  = InstanceSpawn(Enemy, _spawnPosition, Quaternion.identity);
             newEnemy.GetComponentInChildren<Billboard>().Camera = Camera.transform;
+            newEnemy.GetComponent<NPCstats>().AudioPlayerHit = AudioSourceHit;
 
         }//enemy Spawn
         #endregion
