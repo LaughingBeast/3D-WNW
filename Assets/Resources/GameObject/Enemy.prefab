@@ -48,9 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyScript: {fileID: 4555097027450786686}
+  HealthBarObj: {fileID: 7404084325337957087}
+  HealthBarEaserObj: {fileID: 6033217877728803227}
   _healthSlider: {fileID: 319119505309765463}
   _easeHealthSlider: {fileID: 353569474165609463}
-  _curretnHealth: 100
+  _currentHealth: 0
   _lerpSpeed: 0.05
 --- !u!114 &3658571483159986049
 MonoBehaviour:
@@ -64,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e671fa21b7728a64ebca4df84f1fafad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Camera: {fileID: 0}
 --- !u!1 &4865092268688179992
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 100
+  AudioPlayerHit: {fileID: 0}
 --- !u!65 &7432276172028306502
 BoxCollider:
   m_ObjectHideFlags: 0

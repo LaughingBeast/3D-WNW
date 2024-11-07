@@ -8,6 +8,8 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class WorldGenerator : MonoBehaviour
 {
+    public GameObject UIStats;
+    public GameManager GameManager;
     public CinemachineCamera CameraFollow;
     public GameObject NavMesh;
     public Camera Camera;
@@ -84,10 +86,15 @@ public class WorldGenerator : MonoBehaviour
         var spawnP = Instantiate(Player);
         spawnP.transform.position = _spawnPoin;
         spawnP.GetComponent<Player>().Cam = Camera;
-        spawnP.GetComponent<RayCast>().AudioPlayer = AudioSourceFire; // doladit
+        spawnP.GetComponent<RayCast>().AudioPlayer = AudioSourceFire; 
         Player = spawnP;
         CameraFollow.Follow = Player.transform; // Camera Follow
-        
+        GameManager.Player = Player;
+
+        UIStats.GetComponentInChildren<PlayerStats>().GameManager = GameManager;
+        UIStats.SetActive(true);
+
+
         #endregion
 
         #region Firs Wawe Spawn

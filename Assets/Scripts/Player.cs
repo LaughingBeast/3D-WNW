@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     private float _gravityValue = -9.81f;
     private float _mouseInputZ = 16;
 
+    public float HP;
+
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();

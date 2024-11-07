@@ -7,7 +7,9 @@ public class RayCast : MonoBehaviour
 {
     public AudioSource AudioPlayer;
     
-    private ParticleSystem _fire0;
+    public float FireRate;
+    private float _fireRate;
+    public ParticleSystem AKFire;
     private GameObject _particleSystemPositionFire;
     [SerializeField]   
     private float _dmg;
@@ -20,68 +22,59 @@ public class RayCast : MonoBehaviour
 
 
     private void Start()
-    {
-        _fire0 = Resources.Load<ParticleSystem>("ParticleSystem/AK-Fire");
-        _particleSystemPositionFire = gameObject.transform.GetChild(0).GameObject();
-
+    { 
+        _fireRate = FireRate; 
         layerMask = LayerMask.GetMask("Wall", "Enemy");
         Range = 10f;
-
-
     }
 
 
     void Update()
     {
-
-        RaycastHit hit;
-        
-
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            var _fireParticles = Instantiate(_fire0, _particleSystemPositionFire.transform.position, gameObject.transform.rotation);
-            StartCoroutine(FireParticle(_fireParticles));
-            if (!AudioPlayer.isPlaying)
+            RaycastHit hit;
+            _fireRate -= Time.deltaTime;
+            if (_fireRate <= 0)
             {
+               
+                AKFire.Play();
+               
 
-                AudioPlayer.Play();
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Range, layerMask))
+                {
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+                    var currentEnemy = hit.collider.gameObject;
+                    if (currentEnemy.TryGetComponent<NPCstats>(out NPCstats enemyScript))
+                    {
+                        enemyScript.HP -= _dmg;
+                    }
+                }
+                else
+                {
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * Range, Color.white);
+                }
+
+                if (!AudioPlayer.isPlaying)
+                {
+                    AudioPlayer.Play();
+                }
+
+                _fireRate = FireRate;
+            }
+        }else 
+        {
+            AudioPlayer.Stop();
+           
+            if (AKFire)
+            { 
+              AKFire.Stop(); 
             }
             
-
-
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Range, layerMask))
-            {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-                var currentEnemy = hit.collider.gameObject;
-                
-                
-                  if (currentEnemy.TryGetComponent<NPCstats>(out NPCstats enemyScript))
-                  {
-                    enemyScript.HP -= _dmg;
-                    
-                    
-                       
-                    
-                  }
-                
-
-            }
-            else
-            {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * Range, Color.white);
-               
-            }
-        } else { AudioPlayer.Stop(); }
-
+        }
     }
 
 
-    IEnumerator FireParticle(ParticleSystem fireParticles) //Dodìlat spoždìní Fire
-    {
-
-        fireParticles.transform.TransformDirection(Vector3.forward);
-
-        yield return 600;
-    }
+   
 
 }
